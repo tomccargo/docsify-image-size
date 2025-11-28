@@ -8,7 +8,7 @@ A Docsify plugin that adds flexible image sizing and alignment using `:size=` an
 ## Docsify example
 
 ```markdown
-![GitHub Logo](images/GitHub-Mark.png ":size=96 :align=center")
+![GitHub Logo](./images/GitHub-Mark.png ":size=96 :align=center")
 ```
 
 This displays the GitHub logo at 96 pixels wide, centered on the page.
@@ -123,7 +123,7 @@ Replace it with your own image in real documentation.
 ### Percentage width
 
 ```markdown
-![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png ":size=50%")
+![GitHub Logo](./images/GitHub-Mark.png ":size=50%")
 ```
 
 Sets width to 50 percent of the container, height is automatic (aspect ratio preserved).
@@ -143,7 +143,7 @@ On a real Docsify page with the plugin, `:size=50%` uses percentage width, not a
 ### Pixel width only
 
 ```markdown
-![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png ":size=64")
+![GitHub Logo](./images/GitHub-Mark.png ":size=64")
 ```
 
 Sets width to 64 pixels, height is automatic.
@@ -161,7 +161,7 @@ Preview (simulated):
 ### Width and height
 
 ```markdown
-![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png ":size=160x80")
+![GitHub Logo](./images/GitHub-Mark.png ":size=160x80")
 ```
 
 Sets width to 160 pixels and height to 80 pixels.
@@ -180,7 +180,7 @@ Preview (simulated):
 ### Width only (explicit)
 
 ```markdown
-![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png ":size=96x")
+![GitHub Logo](./images/GitHub-Mark.png ":size=96x")
 ```
 
 Sets width to 96 pixels, height is automatic.
@@ -198,7 +198,7 @@ Preview (simulated):
 ### Height only
 
 ```markdown
-![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png ":size=x96")
+![GitHub Logo](./images/GitHub-Mark.png ":size=x96")
 ```
 
 Sets height to 96 pixels, width is automatic.
@@ -221,21 +221,21 @@ If the plugin does not recognize the value format, it leaves the image size unch
 
 Supported values:
 
-* `:align=left`
-* `:align=center`
-* `:align=middle` (alias for `center`)
-* `:align=right`
+- `:align=left`
+- `:align=center`
+- `:align=middle` (alias for `center`)
+- `:align=right`
 
 Alignment is applied using `display: block` and margins on the `img` element:
 
-* `center` / `middle`: `display: block; margin-left: auto; margin-right: auto;`
-* `right`: `display: block; margin-left: auto; margin-right: 0;`
-* `left`: `display: block; margin-left: 0; margin-right: auto;`
+- `center` / `middle`: `display: block; margin-left: auto; margin-right: auto;`
+- `right`: `display: block; margin-left: auto; margin-right: 0;`
+- `left`: `display: block; margin-left: 0; margin-right: auto;`
 
 ### Align left
 
 ```markdown
-![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png ":size=96 :align=left")
+![GitHub Logo](./images/GitHub-Mark.png ":size=96 :align=left")
 ```
 
 Preview (simulated):
@@ -251,7 +251,7 @@ Preview (simulated):
 ### Align center
 
 ```markdown
-![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png ":size=96 :align=center")
+![GitHub Logo](./images/GitHub-Mark.png ":size=96 :align=center")
 ```
 
 Preview (simulated):
@@ -267,7 +267,7 @@ Preview (simulated):
 ### Align right
 
 ```markdown
-![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png ":size=96 :align=right")
+![GitHub Logo](./images/GitHub-Mark.png ":size=96 :align=right")
 ```
 
 Preview (simulated):
@@ -289,21 +289,21 @@ These previews are plain HTML that GitHub Markdown allows (no inline style attri
 You can combine both markers in the same title. Order does not matter:
 
 ```markdown
-![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png ":size=64 :align=center")
-![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png ":size=160x80 :align=right")
-![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png ":size=x96 :align=center")
+![GitHub Logo](./images/GitHub-Mark.png ":size=64 :align=center")
+![GitHub Logo](./images/GitHub-Mark.png ":size=160x80 :align=right")
+![GitHub Logo](./images/GitHub-Mark.png ":size=x96 :align=center")
 ```
 
 ---
 
 ## Notes and limitations
 
-* The plugin looks for `:size=` and `:align=` in the title part of the markdown image, not in `alt`.
-* It removes `:size=...` and `:align=...` from the title before rendering, so tooltips stay clean.
-* It removes any `width` and `height` attributes that Docsify may have added to the image and replaces them with inline `style` properties.
-* Sizing supports:
+- The plugin looks for `:size=` and `:align=` in the title part of the markdown image, not in `alt`.
+- It removes `:size=...` and `:align=...` from the title before rendering, so tooltips stay clean.
+- It removes any `width` and `height` attributes that Docsify may have added to the image and replaces them with inline `style` properties.
+- Sizing supports:
 
-  * Percent width: `NN%`
-  * Pixel values: `NN`, `NNxMM`, `NNx`, `xNN`
-* Unknown `:size=` values are ignored and the image is left unchanged.
-* The plugin modifies inline styles (`style` attribute) on `<img>` elements when Docsify runs. The simulated previews above use only `width`, `height`, and `align` attributes so they also work on GitHub.
+  - Percent width: `NN%`
+  - Pixel values: `NN`, `NNxMM`, `NNx`, `xNN`
+- Unknown `:size=` values are ignored and the image is left unchanged.
+- The plugin modifies inline styles (`style` attribute) on `<img>` elements when Docsify runs. The simulated previews above use only `width`, `height`, and `align` attributes so they also work on GitHub.
