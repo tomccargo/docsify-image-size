@@ -1,0 +1,17 @@
+{
+  "name": "docsify-image-size",
+  "version": "0.1.0",
+  "description": "Docsify plugin that fixes and extends :size= image sizing syntax",
+  "main": "docsify-image-size.js",
+  "keywords": [
+    "docsify",
+    "plugin",
+    "image",
+    "markdown"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomccargo/docsify-image-size.git"
+  }
+}
