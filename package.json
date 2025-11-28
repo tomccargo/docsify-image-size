@@ -1,13 +1,15 @@
 {
   "name": "docsify-image-size",
-  "version": "0.1.0",
-  "description": "Docsify plugin that fixes and extends :size= image sizing syntax",
+  "version": "0.2.0",
+  "description": "Docsify plugin that adds :size= and :align= syntax for image sizing and alignment",
   "main": "docsify-image-size.js",
   "keywords": [
     "docsify",
-    "plugin",
+    "docsify-plugin",
     "image",
-    "markdown"
+    "markdown",
+    "size",
+    "align"
   ],
   "license": "MIT",
   "repository": {
