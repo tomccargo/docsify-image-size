@@ -7,7 +7,7 @@ A Docsify plugin that adds flexible image sizing and alignment using `:size=` an
 
 ## Features
 
-- Fixes Docsify's built in `:size=` handling
+- Fixes Docsify built in `:size=` handling
 - Supports:
   - `:size=50%`         width as percentage, height auto
   - `:size=300`         width in pixels, height auto
@@ -98,12 +98,14 @@ Replace it with your own image in real documentation.
 
 Sets width to 50 percent of the container, height is automatic (aspect ratio preserved).
 
-Preview (simulated):
+Preview (simulated only for GitHub README):
 
 <p>
-  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-       alt="GitHub Logo 50%"
-       style="width:80px; height:auto; border:1px solid #ddd; padding:4px; background:#fff;" />
+  <img
+    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+    alt="GitHub Logo 50%"
+    width="80"
+  />
 </p>
 
 ### Pixel width only
@@ -117,9 +119,11 @@ Sets width to 80 pixels, height is automatic.
 Preview (simulated):
 
 <p>
-  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-       alt="GitHub Logo 80px"
-       style="width:80px; height:auto; border:1px solid #ddd; padding:4px; background:#fff;" />
+  <img
+    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+    alt="GitHub Logo 80px"
+    width="80"
+  />
 </p>
 
 ### Width and height
@@ -133,9 +137,12 @@ Sets width to 80 pixels and height to 80 pixels.
 Preview (simulated):
 
 <p>
-  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-       alt="GitHub Logo 80x80"
-       style="width:80px; height:80px; border:1px solid #ddd; padding:4px; background:#fff;" />
+  <img
+    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+    alt="GitHub Logo 80x80"
+    width="80"
+    height="80"
+  />
 </p>
 
 ### Width only (explicit)
@@ -149,9 +156,11 @@ Sets width to 80 pixels, height is automatic.
 Preview (simulated):
 
 <p>
-  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-       alt="GitHub Logo width 80"
-       style="width:80px; height:auto; border:1px solid #ddd; padding:4px; background:#fff;" />
+  <img
+    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+    alt="GitHub Logo width 80"
+    width="80"
+  />
 </p>
 
 ### Height only
@@ -165,9 +174,11 @@ Sets height to 80 pixels, width is automatic.
 Preview (simulated):
 
 <p>
-  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-       alt="GitHub Logo height 80"
-       style="height:80px; width:auto; border:1px solid #ddd; padding:4px; background:#fff;" />
+  <img
+    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+    alt="GitHub Logo height 80"
+    height="80"
+  />
 </p>
 
 If the plugin does not recognize the value format, it leaves the image size unchanged.
@@ -197,10 +208,12 @@ Alignment is applied using `display: block` and margins on the `img` element:
 
 Preview (simulated):
 
-<p style="text-align:left;">
-  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-       alt="GitHub Logo left"
-       style="width:80px; height:auto; border:1px solid #ddd; padding:4px; background:#fff;" />
+<p align="left">
+  <img
+    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+    alt="GitHub Logo left"
+    width="80"
+  />
 </p>
 
 ### Align center
@@ -211,10 +224,12 @@ Preview (simulated):
 
 Preview (simulated):
 
-<p style="text-align:center;">
-  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-       alt="GitHub Logo center"
-       style="width:80px; height:auto; border:1px solid #ddd; padding:4px; background:#fff;" />
+<p align="center">
+  <img
+    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+    alt="GitHub Logo center"
+    width="80"
+  />
 </p>
 
 ### Align right
@@ -225,13 +240,15 @@ Preview (simulated):
 
 Preview (simulated):
 
-<p style="text-align:right;">
-  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-       alt="GitHub Logo right"
-       style="width:80px; height:auto; border:1px solid #ddd; padding:4px; background:#fff;" />
+<p align="right">
+  <img
+    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+    alt="GitHub Logo right"
+    width="80"
+  />
 </p>
 
-These previews are implemented with plain HTML so that the GitHub README and GitHub Pages can show roughly how the plugin behaves, even though the plugin itself is not active in this README.
+These previews are plain HTML that GitHub Markdown allows (no `style` attributes), so they give a rough idea of what the plugin does even when the plugin is not running in the README.
 
 ---
 
@@ -257,4 +274,4 @@ You can combine both markers in the same title. Order does not matter:
   * Percent width: `NN%`
   * Pixel values: `NN`, `NNxMM`, `NNx`, `xNN`
 * Unknown `:size=` values are ignored and the image is left unchanged.
-* The plugin modifies inline styles (`style` attribute) on `<img>` elements. You can still override these via custom CSS if needed.
+* The plugin modifies inline styles (`style` attribute) on `<img>` elements when Docsify runs. The simulated previews above use only `width`, `height`, and `align` attributes so they also work on GitHub.
