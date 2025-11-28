@@ -5,12 +5,15 @@ A Docsify plugin that adds flexible image sizing and alignment using `:size=` an
 - `:size=` controls image dimensions (percent or pixels)
 - `:align=` controls image alignment (left, center, right)
 
+## Docsify example
+
 ```markdown
 ![GitHub Logo](images/GitHub-Mark.png ":size=96 :align=center")
 ```
 
 This displays the GitHub logo at 96 pixels wide, centered on the page.
 
+- [Docsify example](#docsify-example)
 - [Features](#features)
 - [Installation](#installation)
   - [Via CDN (recommended)](#via-cdn-recommended)
@@ -29,6 +32,7 @@ This displays the GitHub logo at 96 pixels wide, centered on the page.
 - [Combining size and alignment](#combining-size-and-alignment)
 - [Notes and limitations](#notes-and-limitations)
 
+---
 
 ## Features
 
@@ -204,8 +208,8 @@ Preview (simulated):
 <p>
   <img
     src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-    alt="GitHub Logo height 96"
-    height="96"
+    alt="GitHub Logo height 120"
+    height="120"
   />
 </p>
 
