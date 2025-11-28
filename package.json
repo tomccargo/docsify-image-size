@@ -13,5 +13,11 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/tomccargo/docsify-image-size.git"
+  },
+  "scripts": {
+    "build": "terser docsify-image-size.js -o docsify-image-size.min.js"
+  },
+  "devDependencies": {
+    "terser": "^5.44.1"
   }
 }
