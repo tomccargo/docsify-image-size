@@ -31,44 +31,52 @@ This displays the GitHub logo at **96px**, centered.
 
 # Table of Contents
 
-- [Via CDN](#via-cdn)
-- [Via npm](#via-npm)
-- [Local file](#local-file)
-- [size= / s=](#size--s)
-- [align= / a=](#align--a)
-- [max= / m=](#max--m)
-- [class= / c=](#class--c)
-- [zoom / lightbox](#zoom--lightbox)
-- [Caption visibility](#caption-visibility)
-- [Caption position](#caption-position)
-- [Caption alignment](#caption-alignment)
-- [Caption style](#caption-style)
-- [Caption classes](#caption-classes)
-- [Figure labels](#figure-labels)
-- [Autonumbering](#autonumbering)
-- [Percentage width](#percentage-width)
-- [Pixel width](#pixel-width)
-- [Width + height](#width--height)
-- [Width only](#width-only)
-- [Height only](#height-only)
-- [Center](#center)
-- [Right](#right)
-- [Caption + style + autonumber](#caption--style--autonumber)
-- [Float + max width + figure label](#float--max-width--figure-label)
-- [Custom image classes + caption classes](#custom-image-classes--caption-classes)
+- [Installation](#installation)
+  - [Via CDN](#via-cdn)
+  - [Via npm](#via-npm)
+  - [Local file](#local-file)
+- [Usage](#usage)
+- [ALT Directives](#alt-directives)
+  - [size= / s=](#size--s)
+  - [align= / a=](#align--a)
+  - [max= / m=](#max--m)
+  - [class= / c=](#class--c)
+  - [zoom / lightbox](#zoom--lightbox)
+- [TITLE Directives (Captions)](#title-directives-captions)
+  - [Caption visibility](#caption-visibility)
+  - [Caption position](#caption-position)
+  - [Caption alignment](#caption-alignment)
+  - [Caption style](#caption-style)
+  - [Caption classes](#caption-classes)
+  - [Figure labels](#figure-labels)
+  - [Autonumbering](#autonumbering)
+- [Examples \& Previews](#examples--previews)
+  - [Percentage width](#percentage-width)
+  - [Pixel width](#pixel-width)
+  - [Width + height](#width--height)
+  - [Width only](#width-only)
+  - [Height only](#height-only)
+  - [Center](#center)
+  - [Right](#right)
+- [Combined Examples](#combined-examples)
+  - [Caption + style + autonumber](#caption--style--autonumber)
+  - [Float + max width + figure label](#float--max-width--figure-label)
+  - [Custom image classes + caption classes](#custom-image-classes--caption-classes)
+- [Configuration](#configuration)
+- [Notes](#notes)
 
 ---
 
-# Installation
+## Installation
 
-## Via CDN
+### Via CDN
 
 ```html
 <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
 <script src="//unpkg.com/docsify-image-size@1.0.0/docsify-image-size.min.js"></script>
 ```
 
-## Via npm
+### Via npm
 
 ```bash
 npm install docsify-image-size
@@ -78,7 +86,7 @@ npm install docsify-image-size
 <script src="node_modules/docsify-image-size/docsify-image-size.min.js"></script>
 ```
 
-## Local file
+### Local file
 
 ```html
 <script src="./assets/js/docsify-image-size.js"></script>
@@ -86,9 +94,9 @@ npm install docsify-image-size
 
 ---
 
-# Usage
+## Usage
 
-Directives appear inside the image’s ALT or TITLE string using the `|` separator.
+Directives appear inside the image's ALT or TITLE string using the `|` separator.
 
 ```markdown
 ![ALT|size=50%|align=center](image.png "Caption text|pos=below|style=italic")
@@ -98,9 +106,9 @@ The part before the first `|` in ALT remains the real accessibility ALT.
 
 ---
 
-# ALT Directives
+## ALT Directives
 
-## size= / s=
+### size= / s=
 
 | Syntax  | Meaning                 |
 | ------- | ----------------------- |
@@ -110,7 +118,7 @@ The part before the first `|` in ALT remains the real accessibility ALT.
 | `80x`   | width 80px, height auto |
 | `x40`   | width auto, height 40px |
 
-## align= / a=
+### align= / a=
 
 | Value         | Effect          |
 | ------------- | --------------- |
@@ -121,7 +129,7 @@ The part before the first `|` in ALT remains the real accessibility ALT.
 | `float-left`  | float left      |
 | `float-right` | float right     |
 
-## max= / m=
+### max= / m=
 
 Controls CSS `max-width`.
 
@@ -130,7 +138,7 @@ Controls CSS `max-width`.
 ![img|max=50%](img.png)
 ```
 
-## class= / c=
+### class= / c=
 
 Adds CSS classes to the `<img>` element.
 
@@ -138,7 +146,7 @@ Adds CSS classes to the `<img>` element.
 ![img|class=rounded shadow](img.png)
 ```
 
-## zoom / lightbox
+### zoom / lightbox
 
 Adds classes only.
 
@@ -149,7 +157,7 @@ Adds classes only.
 
 ---
 
-# TITLE Directives (Captions)
+## TITLE Directives (Captions)
 
 Syntax:
 
@@ -157,7 +165,7 @@ Syntax:
 ![ALT](url "Caption|directive|directive")
 ```
 
-## Caption visibility
+### Caption visibility
 
 ```markdown
 notitle
@@ -166,37 +174,37 @@ nocaption
 no_caption
 ```
 
-## Caption position
+### Caption position
 
 - `pos=above`
 - `pos=below` (default)
 
-## Caption alignment
+### Caption alignment
 
 - `align=left`
 - `align=center`
 - `align=right`
 
-## Caption style
+### Caption style
 
 - `italic`
 - `bold`
 - `underline`
 - `normal`
 
-## Caption classes
+### Caption classes
 
 ```markdown
 "Caption text|class=caption-small highlight"
 ```
 
-## Figure labels
+### Figure labels
 
 ```markdown
 "CPU pipeline|fig=2.3"
 ```
 
-## Autonumbering
+### Autonumbering
 
 ```markdown
 "CPU Pipeline|autonumber"
@@ -204,11 +212,11 @@ no_caption
 
 ---
 
-# Examples & Previews
+## Examples & Previews
 
 (*ALL GitHub logo examples preserved exactly from your original README, now enhanced if directives allow.*)
 
-## Percentage width
+### Percentage width
 
 ```markdown
 ![GitHub Logo|size=50%](./images/GitHub-Mark.png)
@@ -218,7 +226,7 @@ no_caption
 
 ---
 
-## Pixel width
+### Pixel width
 
 ```markdown
 ![GitHub Logo|size=64](./images/GitHub-Mark.png)
@@ -228,7 +236,7 @@ no_caption
 
 ---
 
-## Width + height
+### Width + height
 
 ```markdown
 ![GitHub Logo|size=160x80](./images/GitHub-Mark.png)
@@ -238,7 +246,7 @@ no_caption
 
 ---
 
-## Width only
+### Width only
 
 ```markdown
 ![GitHub Logo|size=96x](./images/GitHub-Mark.png)
@@ -248,7 +256,7 @@ no_caption
 
 ---
 
-## Height only
+### Height only
 
 ````markdown
 ![GitHub Logo|size=x96](./images/GitHub-Mark.png)
@@ -258,9 +266,7 @@ no_caption
 
 ---
 
-# Alignment Examples
-
-## Left
+### Left
 
 ```markdown
 ![GitHub Logo|size=96|align=left](./images/GitHub-Mark.png)
@@ -268,7 +274,9 @@ no_caption
 
 <p align="left"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
 
-## Center
+---
+
+### Center
 
 ```markdown
 ![GitHub Logo|size=96|align=center](./images/GitHub-Mark.png)
@@ -276,7 +284,9 @@ no_caption
 
 <p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
 
-## Right
+---
+
+### Right
 
 ```markdown
 ![GitHub Logo|size=96|align=right](./images/GitHub-Mark.png)
@@ -286,32 +296,45 @@ no_caption
 
 ---
 
-# Combined Examples
+## Combined Examples
 
-## Caption + style + autonumber
+### Caption + style + autonumber
 
 ```markdown
 ![GitHub Logo|size=120|align=center](./images/GitHub-Mark.png
  "The GitHub Mark|pos=below|style=italic|autonumber|class=caption-small")
 ```
 
-## Float + max width + figure label
+<p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="120"></p>
+<p align="center" style="font-style: italic;"><em>Figure 1: The GitHub Mark</em></p>
+
+---
+
+### Float + max width + figure label
 
 ```markdown
 ![Pipeline|size=50%|align=float-right|max=300](pipeline.png
  "Pipeline execution stages|pos=above|fig=3.1|style=bold")
 ```
 
-## Custom image classes + caption classes
+<em>Note: Float and caption positioning best viewed in rendered Docsify site.</em>
+
+---
+
+### Custom image classes + caption classes
 
 ```markdown
 ![CPU|size=200|class=hero-img rounded](cpu.png
  "CPU overview|class=caption-highlight note")
 ```
 
+<em>Note: Custom classes require corresponding CSS definitions in your Docsify theme.</em>
+
 ---
 
-# Configuration
+## Configuration
+
+Add to your `index.html` before loading Docsify:
 
 ```js
 window.$docsify = {
@@ -328,7 +351,7 @@ window.$docsify = {
 
 ---
 
-# Notes
+## Notes
 
 - ALT text before the first `|` remains the true accessibility alt.
 - Unknown directives are ignored with warnings.
