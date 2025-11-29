@@ -1,53 +1,43 @@
 # docsify-image-size
 
-A Docsify plugin that adds flexible image sizing and alignment using `:size=` and `:align=` syntax in your markdown image titles.
+A Docsify plugin that adds **image sizing** and **alignment** using simple directives inside the **ALT text** of markdown images.
 
-- `:size=` controls image dimensions (percent or pixels)
-- `:align=` controls image alignment (left, center, right)
-
-## Docsify example
-
-```markdown
-![GitHub Logo](./images/GitHub-Mark.png ":size=96 :align=center")
-```
-
-This displays the GitHub logo at 96 pixels wide, centered on the page.
-
-- [Docsify example](#docsify-example)
-- [Features](#features)
-- [Installation](#installation)
-  - [Via CDN (recommended)](#via-cdn-recommended)
-  - [Via npm](#via-npm)
-- [Usage](#usage)
-- [Sizing syntax (`:size=`)](#sizing-syntax-size)
-  - [Percentage width](#percentage-width)
-  - [Pixel width only](#pixel-width-only)
-  - [Width and height](#width-and-height)
-  - [Width only (explicit)](#width-only-explicit)
-  - [Height only](#height-only)
-- [Alignment syntax (`:align=`)](#alignment-syntax-align)
-  - [Align left](#align-left)
-  - [Align center](#align-center)
-  - [Align right](#align-right)
-- [Combining size and alignment](#combining-size-and-alignment)
-- [Notes and limitations](#notes-and-limitations)
+Stable, predictable, and compatible with all Docsify themes.
+No conflicts with Docsify's built-in `:size=` behavior.
 
 ---
 
-## Features
+## Quick Example
 
-- Fixes Docsify built in `:size=` handling
-- Supports:
-  - `:size=50%`         width as percentage, height auto
-  - `:size=300`         width in pixels, height auto
-  - `:size=300x100`     width and height in pixels
-  - `:size=300x`        width only in pixels, height auto
-  - `:size=x100`        height only in pixels, width auto
-- Adds simple alignment:
-  - `:align=left`
-  - `:align=center` or `:align=middle`
-  - `:align=right`
-- Automatically strips `:size=` and `:align=` from the image tooltip
+```markdown
+![GitHub Logo|size=96|align=center](./images/GitHub-Mark.png)
+```
+
+This displays the GitHub logo **96px wide**, **centered** on the page.
+
+---
+
+- [Quick Example](#quick-example)
+- [Installation](#installation)
+  - [Via CDN (recommended)](#via-cdn-recommended)
+  - [Via npm](#via-npm)
+  - [Local file](#local-file)
+- [Usage](#usage)
+- [Supported Directives](#supported-directives)
+  - [Sizing (`size=`)](#sizing-size)
+  - [Alignment (`align=`)](#alignment-align)
+- [Examples \& Previews](#examples--previews)
+  - [Percentage width](#percentage-width)
+  - [Pixel width](#pixel-width)
+  - [Width + height](#width--height)
+  - [Width only](#width-only)
+  - [Height only](#height-only)
+- [Alignment Examples](#alignment-examples)
+  - [Left](#left)
+  - [Center](#center)
+  - [Right](#right)
+  - [Combining size \& alignment](#combining-size--alignment)
+- [Notes \& Limitations](#notes--limitations)
 
 ---
 
@@ -55,255 +45,191 @@ This displays the GitHub logo at 96 pixels wide, centered on the page.
 
 ### Via CDN (recommended)
 
-Include the plugin script after Docsify in your `index.html`.
-
-Using jsDelivr with an explicit version:
-
-```html
-<!-- Docsify core -->
-<script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-
-<!-- docsify-image-size plugin (version 0.2.0) -->
-<script src="//cdn.jsdelivr.net/npm/docsify-image-size@0.2.0/docsify-image-size.min.js"></script>
-````
-
-Using unpkg:
-
 ```html
 <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-<script src="//unpkg.com/docsify-image-size@0.2.0/docsify-image-size.min.js"></script>
+<script src="//unpkg.com/docsify-image-size@0.3.0/docsify-image-size.min.js"></script>
 ```
 
-You can also use `@latest` instead of `@0.2.0` if you want to always pull the newest release (at the cost of reproducibility).
-
 ### Via npm
-
-Install the package:
 
 ```bash
 npm install docsify-image-size
 ```
 
-Then include the plugin in your Docsify HTML (for example from `node_modules`):
+Use in `index.html`:
 
 ```html
-<script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
 <script src="node_modules/docsify-image-size/docsify-image-size.min.js"></script>
 ```
 
-The plugin auto registers itself with Docsify when loaded. You do not need to modify `window.$docsify.plugins` manually.
+### Local file
+
+```html
+<script src="./assets/js/docsify-image-size.js"></script>
+```
 
 ---
 
 ## Usage
 
-The plugin reads markers from the image `title` attribute in your markdown.
-
-Basic pattern:
+Directives go inside the **ALT** text using the `|` separator:
 
 ```markdown
-![alt text](path/to/image.png ":size=... :align=...")
+![ALT|size=VALUE|align=VALUE](URL)
 ```
 
-You can use `:size=`, `:align=`, or both, in any order, separated by spaces.
-
-In the examples and previews below, all images use this bitmap:
-
-```text
-https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-```
-
-That image is a square GitHub Mark logo (typically provided at 512x512 or similar).
-Replace it with your own image in real documentation.
+Only the first segment becomes the actual ALT text.
+All other segments are interpreted as directives.
 
 ---
 
-## Sizing syntax (`:size=`)
+## Supported Directives
+
+### Sizing (`size=`)
+
+| Syntax  | Meaning                     | Example rendered size |
+| ------- | --------------------------- | --------------------- |
+| `50%`   | Width = 50%, height auto    | width 50%             |
+| `80`    | Width = 80px, height auto   | 80 x auto             |
+| `80x40` | Width = 80px, height = 40px | 80 x 40               |
+| `80x`   | Width = 80px, height auto   | 80 x auto             |
+| `x40`   | Width auto, height = 40px   | auto x 40             |
+
+### Alignment (`align=`)
+
+| Value    | Effect            |
+| -------- | ----------------- |
+| `left`   | Left aligned      |
+| `center` | Centered          |
+| `middle` | Alias of `center` |
+| `right`  | Right aligned     |
+
+Alignment is implemented using:
+
+- `display: block`
+- `margin-left/right`
+- parent `text-align`
+
+---
+
+## Examples & Previews
+
+All previews below use the GitHub Mark logo:
+
+```markdown
+https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+```
+
+(Previews look correct on GitHub; Docsify will dynamically size/align using the plugin.)
+
+---
 
 ### Percentage width
 
 ```markdown
-![GitHub Logo](./images/GitHub-Mark.png ":size=50%")
+![GitHub Logo|size=50%](./images/GitHub-Mark.png)
 ```
 
-Sets width to 50 percent of the container, height is automatic (aspect ratio preserved).
+Preview:
 
-Preview (simulated only for GitHub README):
+<p><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="160"></p>
 
-<p>
-  <img
-    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-    alt="GitHub Logo 50% width (simulated)"
-    width="160"
-  />
-</p>
+---
 
-On a real Docsify page with the plugin, `:size=50%` uses percentage width, not a fixed pixel width.
-
-### Pixel width only
+### Pixel width
 
 ```markdown
-![GitHub Logo](./images/GitHub-Mark.png ":size=64")
+![GitHub Logo|size=64](./images/GitHub-Mark.png)
 ```
 
-Sets width to 64 pixels, height is automatic.
+Preview:
 
-Preview (simulated):
+<p><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="64"></p>
 
-<p>
-  <img
-    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-    alt="GitHub Logo 64px width"
-    width="64"
-  />
-</p>
+---
 
-### Width and height
+### Width + height
 
 ```markdown
-![GitHub Logo](./images/GitHub-Mark.png ":size=160x80")
+![GitHub Logo|size=160x80](./images/GitHub-Mark.png)
 ```
 
-Sets width to 160 pixels and height to 80 pixels.
+Preview:
 
-Preview (simulated):
+<p><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="160" height="80"></p>
 
-<p>
-  <img
-    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-    alt="GitHub Logo 160x80"
-    width="160"
-    height="80"
-  />
-</p>
+---
 
-### Width only (explicit)
+### Width only
 
 ```markdown
-![GitHub Logo](./images/GitHub-Mark.png ":size=96x")
+![GitHub Logo|size=96x](./images/GitHub-Mark.png)
 ```
 
-Sets width to 96 pixels, height is automatic.
+Preview:
 
-Preview (simulated):
+<p><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
 
-<p>
-  <img
-    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-    alt="GitHub Logo width 96"
-    width="96"
-  />
-</p>
+---
 
 ### Height only
 
 ```markdown
-![GitHub Logo](./images/GitHub-Mark.png ":size=x96")
+![GitHub Logo|size=x96](./images/GitHub-Mark.png)
 ```
 
-Sets height to 96 pixels, width is automatic.
+Preview:
 
-Preview (simulated):
-
-<p>
-  <img
-    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-    alt="GitHub Logo height 120"
-    height="120"
-  />
-</p>
-
-If the plugin does not recognize the value format, it leaves the image size unchanged.
+<p><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" height="96"></p>
 
 ---
 
-## Alignment syntax (`:align=`)
+## Alignment Examples
 
-Supported values:
-
-- `:align=left`
-- `:align=center`
-- `:align=middle` (alias for `center`)
-- `:align=right`
-
-Alignment is applied using `display: block` and margins on the `img` element:
-
-- `center` / `middle`: `display: block; margin-left: auto; margin-right: auto;`
-- `right`: `display: block; margin-left: auto; margin-right: 0;`
-- `left`: `display: block; margin-left: 0; margin-right: auto;`
-
-### Align left
+### Left
 
 ```markdown
-![GitHub Logo](./images/GitHub-Mark.png ":size=96 :align=left")
+![GitHub Logo|size=96|align=left](./images/GitHub-Mark.png)
 ```
 
-Preview (simulated):
-
-<p align="left">
-  <img
-    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-    alt="GitHub Logo left"
-    width="96"
-  />
-</p>
-
-### Align center
-
-```markdown
-![GitHub Logo](./images/GitHub-Mark.png ":size=96 :align=center")
-```
-
-Preview (simulated):
-
-<p align="center">
-  <img
-    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-    alt="GitHub Logo center"
-    width="96"
-  />
-</p>
-
-### Align right
-
-```markdown
-![GitHub Logo](./images/GitHub-Mark.png ":size=96 :align=right")
-```
-
-Preview (simulated):
-
-<p align="right">
-  <img
-    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-    alt="GitHub Logo right"
-    width="96"
-  />
-</p>
-
-These previews are plain HTML that GitHub Markdown allows (no inline style attributes), so they give a rough idea of what the plugin does even when the plugin itself is not running in the README.
+<p align="left"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
 
 ---
 
-## Combining size and alignment
-
-You can combine both markers in the same title. Order does not matter:
+### Center
 
 ```markdown
-![GitHub Logo](./images/GitHub-Mark.png ":size=64 :align=center")
-![GitHub Logo](./images/GitHub-Mark.png ":size=160x80 :align=right")
-![GitHub Logo](./images/GitHub-Mark.png ":size=x96 :align=center")
+![GitHub Logo|size=96|align=center](./images/GitHub-Mark.png)
+```
+
+<p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
+
+---
+
+### Right
+
+```markdown
+![GitHub Logo|size=96|align=right](./images/GitHub-Mark.png)
+```
+
+<p align="right"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
+
+---
+
+### Combining size & alignment
+
+```markdown
+![GitHub Logo|size=64|align=center](./images/GitHub-Mark.png)
+![GitHub Logo|size=160x80|align=right](./images/GitHub-Mark.png)
+![GitHub Logo|size=x96|align=center](./images/GitHub-Mark.png)
 ```
 
 ---
 
-## Notes and limitations
+## Notes & Limitations
 
-- The plugin looks for `:size=` and `:align=` in the title part of the markdown image, not in `alt`.
-- It removes `:size=...` and `:align=...` from the title before rendering, so tooltips stay clean.
-- It removes any `width` and `height` attributes that Docsify may have added to the image and replaces them with inline `style` properties.
-- Sizing supports:
-
-  - Percent width: `NN%`
-  - Pixel values: `NN`, `NNxMM`, `NNx`, `xNN`
-- Unknown `:size=` values are ignored and the image is left unchanged.
-- The plugin modifies inline styles (`style` attribute) on `<img>` elements when Docsify runs. The simulated previews above use only `width`, `height`, and `align` attributes so they also work on GitHub.
+- The plugin only parses directives inside the **ALT text**.
+- Docsify's built-in `:size=` syntax is ignored.
+- Unknown size formats are ignored.
+- The plugin **never** modifies `src` paths.
+- Previews in this README are simulated with raw HTML.
