@@ -15,8 +15,6 @@ Features include:
 - Figure labels
 - Autonumbering (local and global)
 
----
-
 > [!TIP]
 > **Quick Docsify Example**
 >
@@ -27,8 +25,6 @@ Features include:
 ><p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
 >
 >This displays the GitHub logo at **96px**, centered.
-
----
 
 - [Installation](#installation)
   - [Via CDN](#via-cdn)
