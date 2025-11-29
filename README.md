@@ -260,7 +260,7 @@ no_caption
 
 ````markdown
 ![GitHub Logo|size=x96](./images/GitHub-Mark.png)
-``>
+```
 
 <p><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" height="96"></p>
 
