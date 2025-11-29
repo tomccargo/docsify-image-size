@@ -23,10 +23,10 @@ Features include:
 >```markdown
 >![GitHub Logo|size=96|align=center](./images/GitHub-Mark.png)
 >```
-
-<p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
-
-This displays the GitHub logo at **96px**, centered.
+>
+><p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
+>
+>This displays the GitHub logo at **96px**, centered.
 
 ---
 
