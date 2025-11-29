@@ -17,19 +17,17 @@ Features include:
 
 ---
 
-# Quick Docsify Example
-
-```markdown
-![GitHub Logo|size=96|align=center](./images/GitHub-Mark.png)
-````
+?> **Quick Docsify Example**
+?>
+?>```markdown
+?>![GitHub Logo|size=96|align=center](./images/GitHub-Mark.png)
+?>```
 
 <p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
 
 This displays the GitHub logo at **96px**, centered.
 
 ---
-
-# Table of Contents
 
 - [Installation](#installation)
   - [Via CDN](#via-cdn)
@@ -271,7 +269,7 @@ no_caption
 
 ```markdown
 ![GitHub Logo|size=96|align=left](./images/GitHub-Mark.png)
-````
+```
 
 <p align="left"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
 
