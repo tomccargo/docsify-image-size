@@ -7,7 +7,7 @@ No conflicts with Docsify's built-in `:size=` behavior.
 
 ---
 
-## Quick Example
+## Quick Docsify Example
 
 ```markdown
 ![GitHub Logo|size=96|align=center](./images/GitHub-Mark.png)
@@ -19,7 +19,7 @@ This displays the GitHub logo **96px wide**, **centered** on the page.
 
 ---
 
-- [Quick Example](#quick-example)
+- [Quick Docsify Example](#quick-docsify-example)
 - [Installation](#installation)
   - [Via CDN (recommended)](#via-cdn-recommended)
   - [Via npm](#via-npm)
