@@ -13,6 +13,8 @@ No conflicts with Docsify's built-in `:size=` behavior.
 ![GitHub Logo|size=96|align=center](./images/GitHub-Mark.png)
 ```
 
+<p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
+
 This displays the GitHub logo **96px wide**, **centered** on the page.
 
 ---
