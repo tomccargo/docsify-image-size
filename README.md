@@ -56,6 +56,7 @@ This displays the GitHub logo at **96px**, centered.
   - [Width + height](#width--height)
   - [Width only](#width-only)
   - [Height only](#height-only)
+  - [Left](#left)
   - [Center](#center)
   - [Right](#right)
 - [Combined Examples](#combined-examples)
@@ -258,7 +259,7 @@ no_caption
 
 ### Height only
 
-````markdown
+```markdown
 ![GitHub Logo|size=x96](./images/GitHub-Mark.png)
 ```
 
