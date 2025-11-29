@@ -2,9 +2,6 @@
 
 A Docsify plugin that adds **image sizing** and **alignment** using simple directives inside the **ALT text** of markdown images.
 
-Stable, predictable, and compatible with all Docsify themes.
-No conflicts with Docsify's built-in `:size=` behavior.
-
 ---
 
 ## Quick Docsify Example
