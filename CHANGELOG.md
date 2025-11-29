@@ -34,6 +34,7 @@ This project follows semantic versioning.
   - Global autonumbering with configuration
   - Page-scoped or global-scoped counters
 - Global configuration block:
+
   ```js
   window.$docsify = {
     imageSize: {
@@ -45,34 +46,34 @@ This project follows semantic versioning.
       autoNumberScope: "page"
     }
   };
-````
+  ```
 
-* Data attributes added to each image and caption:
+- Data attributes added to each image and caption:
 
-  * `data-img-size`
-  * `data-img-align`
-  * `data-img-max`
-  * `data-img-class`
-  * `data-img-zoom`
-  * `data-img-lightbox`
-  * `data-img-caption-pos`
-  * `data-img-caption-align`
-  * `data-img-caption-style`
-  * `data-img-caption-fig`
-  * `data-img-caption-autonumber`
-  * `data-img-caption-number`
+  - `data-img-size`
+  - `data-img-align`
+  - `data-img-max`
+  - `data-img-class`
+  - `data-img-zoom`
+  - `data-img-lightbox`
+  - `data-img-caption-pos`
+  - `data-img-caption-align`
+  - `data-img-caption-style`
+  - `data-img-caption-fig`
+  - `data-img-caption-autonumber`
+  - `data-img-caption-number`
 
 ### Changed
 
-* Unified directive parsing for all ALT/TITLE fields.
-* More robust DOM handling including prevention of double caption injection.
-* More tolerant syntax handling and warnings for malformed directives.
+- Unified directive parsing for all ALT/TITLE fields.
+- More robust DOM handling including prevention of double caption injection.
+- More tolerant syntax handling and warnings for malformed directives.
 
 ### Fixed
 
-* Caption duplication on re-render.
-* Incorrect float behavior when combined with captions.
-* Max-width behavior inconsistencies across Docsify rebuilds.
+- Caption duplication on re-render.
+- Incorrect float behavior when combined with captions.
+- Max-width behavior inconsistencies across Docsify rebuilds.
 
 ---
 
@@ -82,33 +83,33 @@ This project follows semantic versioning.
 
 ### Added
 
-* ALT-based directive syntax for image configuration:
+- ALT-based directive syntax for image configuration:
 
-  * `![Alt|size=...]`
-  * `![Alt|align=...]`
-* Size formats supported:
+  - `![Alt|size=...]`
+  - `![Alt|align=...]`
+- Size formats supported:
 
-  * Percent widths (`50%`)
-  * Single pixel width (`80`)
-  * Pixel width and height (`80x40`)
-  * Width-only (`80x`)
-  * Height-only (`x40`)
-* Alignment options:
+  - Percent widths (`50%`)
+  - Single pixel width (`80`)
+  - Pixel width and height (`80x40`)
+  - Width-only (`80x`)
+  - Height-only (`x40`)
+- Alignment options:
 
-  * `left`, `center`, `middle`, `right`
-* Updated documentation describing new ALT system.
-* Minified build output.
+  - `left`, `center`, `middle`, `right`
+- Updated documentation describing new ALT system.
+- Minified build output.
 
 ### Changed
 
-* Removed Docsify title-based syntax (`:size=` and `:align=`) because Docsify strips these before plugins run.
-* Plugin rewritten to operate in `hook.doneEach`.
-* ALT text cleaned after parsing.
+- Removed Docsify title-based syntax (`:size=` and `:align=`) because Docsify strips these before plugins run.
+- Plugin rewritten to operate in `hook.doneEach`.
+- ALT text cleaned after parsing.
 
 ### Fixed
 
-* All path inconsistencies caused by previous markdown-rewriting method.
-* Broken title-based behavior in 0.2.x versions.
+- All path inconsistencies caused by previous markdown-rewriting method.
+- Broken title-based behavior in 0.2.x versions.
 
 ---
 
@@ -118,10 +119,10 @@ This project follows semantic versioning.
 
 ### Description
 
-* Introduced `:size=` and `:align=` title-based syntax.
-* Conflicted with Docsify’s internal markdown parsing.
-* Caused broken paths and inconsistent handling.
-* Superseded by v0.3.0 ALT-based design.
+- Introduced `:size=` and `:align=` title-based syntax.
+- Conflicted with Docsify's internal markdown parsing.
+- Caused broken paths and inconsistent handling.
+- Superseded by v0.3.0 ALT-based design.
 
 ---
 
@@ -131,6 +132,6 @@ This project follows semantic versioning.
 
 ### Features
 
-* Basic image sizing via `:size=`.
-* No alignment support.
-* Relied on Docsify's title parsing, which was unstable.
+- Basic image sizing via `:size=`.
+- No alignment support.
+- Relied on Docsify's title parsing, which was unstable.
