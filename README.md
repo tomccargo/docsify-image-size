@@ -19,12 +19,12 @@ Features include:
 > **Quick Docsify Example**
 >
 >```markdown
->![GitHub Logo|size=96|align=center](./images/GitHub-Mark.png)
+>![GitHub Logo|size=96|align=center](./images/GitHub-Mark.png "The GitHub mark")
 >```
 >
-><p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"></p>
+>This displays the GitHub logo at **96px**, centered, with a centered, italics caption below the image:
 >
->This displays the GitHub logo at **96px**, centered.
+><p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"><br><em>The GitHub mark</em></p>
 
 - [Installation](#installation)
   - [Via CDN](#via-cdn)
