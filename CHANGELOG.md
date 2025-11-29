@@ -6,132 +6,116 @@ This project follows semantic versioning.
 
 ---
 
-## v1.0.0 — Full directive system: captions, figures, floats, max width, classes, zoom, lightbox
+## v1.0.0 - Finalized ALT/TITLE directive system (sizing, alignment, captions)
 
 **Released:** 2025-11-29
 
 ### Added
 
-- ALT-based directives:
-  - `size=`, `s=`
-  - `align=`, `a=` including `float-left` and `float-right`
-  - `max=`, `m=`
-  - `class=`, `c=`
-  - `zoom`, `lightbox`
-- TITLE-based caption system:
-  - Caption text
-  - `pos=above` and `pos=below`
-  - `align=left|center|right`
-  - `style=italic|bold|underline|normal`
-  - `notitle`, `no-title`, `nocaption`, `no_caption`
-- Caption CSS class application:
-  - `class=caption-small highlight`
-- Figure labeling:
-  - `fig=1.1`, `label=1.1`
-  - Customizable prefix (`Figure`)
-- Autonumbering:
-  - Per-caption with `autonumber`
-  - Global autonumbering with configuration
-  - Page-scoped or global-scoped counters
-- Global configuration block:
+* **ALT-based directives**
 
-  ```js
-  window.$docsify = {
-    imageSize: {
-      defaultCaptionPos: "below",
-      defaultCaptionAlign: "center",
-      defaultCaptionStyle: "italic",
-      figurePrefix: "Figure",
-      autoNumber: false,
-      autoNumberScope: "page"
-    }
-  };
-  ```
+  * `size=` - pixel, percent, and WxH size formats:
 
-- Data attributes added to each image and caption:
+    * `50%`, `80`, `80px`, `80x40`, `80x`, `x40`, `80xauto`
+  * `align=` - image alignment:
 
-  - `data-img-size`
-  - `data-img-align`
-  - `data-img-max`
-  - `data-img-class`
-  - `data-img-zoom`
-  - `data-img-lightbox`
-  - `data-img-caption-pos`
-  - `data-img-caption-align`
-  - `data-img-caption-style`
-  - `data-img-caption-fig`
-  - `data-img-caption-autonumber`
-  - `data-img-caption-number`
+    * `left` (default), `center`, `middle` (alias), `right`
+  * Backwards parsing allows pipes (`|`) inside real alt text.
+
+* **TITLE-based caption system**
+
+  * Simple caption text via the TITLE attribute.
+  * Caption directives:
+
+    * `pos=above`, `pos=below` (default)
+    * `style=italic|bold|underline|normal`
+    * `notitle`, `no-title`, `nocaption`, `no_caption`
+  * Captions automatically inherit image alignment.
+  * Valid HTML: captions rendered as `<span style="display:block">` (safe inside `<p>`).
+
+* **DOM Safety and Robustness**
+
+  * Idempotent processing (`data-docsify-image-size-processed`).
+  * No modification of parent containers.
+  * No layout changes unless `align=` is explicitly used.
+
+* **Warnings**
+
+  * Console warnings for malformed or misplaced ALT directives (case-insensitive, pipe-aware).
 
 ### Changed
 
-- Unified directive parsing for all ALT/TITLE fields.
-- More robust DOM handling including prevention of double caption injection.
-- More tolerant syntax handling and warnings for malformed directives.
+* Completely rewritten parser:
+
+  * Reverse-scan ALT directive parsing.
+  * Defensive handling of mixed/garbage size inputs.
+  * Strict clamping of alignment values.
+* Unified caption behavior:
+
+  * Default italic, below image.
+  * Bare `notitle` removes both caption and tooltip.
+* Caption injection now safe, minimal, and HTML-correct.
 
 ### Fixed
 
-- Caption duplication on re-render.
-- Incorrect float behavior when combined with captions.
-- Max-width behavior inconsistencies across Docsify rebuilds.
+* Removed invalid `<div>` injection inside `<p>` (now uses `<span>`).
+* Eliminated parent paragraph alignment side effects.
+* Caption duplication prevented via internal idempotency flags.
+* ALT directives with embedded pipes no longer break parsing.
 
 ---
 
-## v0.3.0 — ALT-based syntax and reliable sizing and alignment
+## v0.3.0 - ALT-based syntax for reliable sizing and alignment
 
 **Released:** 2025-11-25
 
 ### Added
 
-- ALT-based directive syntax for image configuration:
+* ALT-based directive system:
 
-  - `![Alt|size=...]`
-  - `![Alt|align=...]`
-- Size formats supported:
+  * `![Alt|size=...]`
+  * `![Alt|align=...]`
+* Supported size formats:
 
-  - Percent widths (`50%`)
-  - Single pixel width (`80`)
-  - Pixel width and height (`80x40`)
-  - Width-only (`80x`)
-  - Height-only (`x40`)
-- Alignment options:
+  * `50%`, `80`, `80x40`, `80x`, `x40`
+* Alignment options:
 
-  - `left`, `center`, `middle`, `right`
-- Updated documentation describing new ALT system.
-- Minified build output.
+  * `left`, `center`, `middle`, `right`
+* Cleaned ALT text after parsing.
+* Minified build output.
 
 ### Changed
 
-- Removed Docsify title-based syntax (`:size=` and `:align=`) because Docsify strips these before plugins run.
-- Plugin rewritten to operate in `hook.doneEach`.
-- ALT text cleaned after parsing.
+* Removed Docsify title-based `:size=` and `:align=` syntax (Docsify strips titles before plugins run).
+* Plugin now operates fully in `hook.doneEach`.
+* More stable and predictable DOM behavior.
 
 ### Fixed
 
-- All path inconsistencies caused by previous markdown-rewriting method.
-- Broken title-based behavior in 0.2.x versions.
+* Path inconsistencies caused by manipulating Markdown.
+* All broken title-based behavior from 0.2.x.
 
 ---
 
-## v0.2.0 — Title-based directive experiment (superseded)
+## v0.2.0 - Title-based directive experiment (superseded)
 
 **Released:** 2025-xx-xx
 
 ### Description
 
-- Introduced `:size=` and `:align=` title-based syntax.
-- Conflicted with Docsify's internal markdown parsing.
-- Caused broken paths and inconsistent handling.
-- Superseded by v0.3.0 ALT-based design.
+* Introduced `:size=` and `:align=` directives in the title string.
+* Conflicted with Docsify's internal parser.
+* Caused broken paths and inconsistent rendering.
+* Replaced entirely by v0.3.0 ALT-based approach.
 
 ---
 
-## v0.1.0 — Initial release
+## v0.1.0 - Initial release
 
 **Released:** 2025-xx-xx
 
 ### Features
 
-- Basic image sizing via `:size=`.
-- No alignment support.
-- Relied on Docsify's title parsing, which was unstable.
+* Basic image sizing using experimental `:size=` syntax.
+* No alignment support.
+* Depended on Docsify's title parsing, which proved unstable.

@@ -1,30 +1,27 @@
 # docsify-image-size
 
-A Docsify plugin that adds a complete image-styling and caption system using simple inline directives inside the ALT and TITLE fields.
+A Docsify plugin that adds **inline image sizing**, **image alignment**, and **captions** using simple directives written directly inside Markdown.
 
-Features include:
+The plugin is:
 
-- Image sizing (px, %, WxH)
-- Alignment (left, center, right, float-left, float-right)
-- Max-width
-- Image CSS classes
-- Zoom/lightbox hooks
-- Captions (from TITLE)
-- Caption position, alignment, style
-- Caption CSS classes
-- Figure labels
-- Autonumbering (local and global)
+* Safe (no invalid HTML)
+* Idempotent (runs once per image)
+* Non-invasive (no layout changes unless explicitly requested)
+* Pipe-robust (alt text can contain `|`)
+* Caption-aware (captions below or above, styled, aligned with the image)
 
 > [!TIP]
 > **Quick Docsify Example**
 >
->```markdown
->![GitHub Logo|size=96|align=center](./images/GitHub-Mark.png "The GitHub mark")
->```
+> ```markdown
+> ![GitHub Logo|size=96|align=center](./images/GitHub-Mark.png "The GitHub mark")
+> ```
 >
->This displays the GitHub logo at **96px**, centered, with a centered, italics caption below the image:
+> This displays the GitHub logo at **96px**, centered, with a centered italic caption below the image:
 >
-><p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"><br><em>The GitHub mark</em></p>
+> <p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="96"><br><em>The GitHub mark</em></p>
+
+---
 
 - [Installation](#installation)
   - [Via CDN](#via-cdn)
@@ -32,19 +29,13 @@ Features include:
   - [Local file](#local-file)
 - [Usage](#usage)
 - [ALT Directives](#alt-directives)
-  - [size= / s=](#size--s)
-  - [align= / a=](#align--a)
-  - [max= / m=](#max--m)
-  - [class= / c=](#class--c)
-  - [zoom / lightbox](#zoom--lightbox)
+  - [size=](#size)
+  - [align=](#align)
 - [TITLE Directives (Captions)](#title-directives-captions)
-  - [Caption visibility](#caption-visibility)
-  - [Caption position](#caption-position)
-  - [Caption alignment](#caption-alignment)
-  - [Caption style](#caption-style)
-  - [Caption classes](#caption-classes)
-  - [Figure labels](#figure-labels)
-  - [Autonumbering](#autonumbering)
+  - [Visibility](#visibility)
+  - [Position](#position)
+  - [Style](#style)
+  - [Alignment](#alignment)
 - [Examples \& Previews](#examples--previews)
   - [Percentage width](#percentage-width)
   - [Pixel width](#pixel-width)
@@ -54,11 +45,7 @@ Features include:
   - [Left](#left)
   - [Center](#center)
   - [Right](#right)
-- [Combined Examples](#combined-examples)
-  - [Caption + style + autonumber](#caption--style--autonumber)
-  - [Float + max width + figure label](#float--max-width--figure-label)
-  - [Custom image classes + caption classes](#custom-image-classes--caption-classes)
-- [Configuration](#configuration)
+- [Combined Example](#combined-example)
 - [Notes](#notes)
 
 ---
@@ -69,7 +56,7 @@ Features include:
 
 ```html
 <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-<script src="//unpkg.com/docsify-image-size@1.0.0/docsify-image-size.min.js"></script>
+<script src="//unpkg.com/docsify-image-size/docsify-image-size.min.js"></script>
 ```
 
 ### Via npm
@@ -92,76 +79,64 @@ npm install docsify-image-size
 
 ## Usage
 
-Directives appear inside the image's ALT or TITLE string using the `|` separator.
+Use the `|` character inside the ALT text for **image sizing and alignment**,
+and inside the TITLE text for **captions**.
 
 ```markdown
-![ALT|size=50%|align=center](image.png "Caption text|pos=below|style=italic")
+![Alt text|size=50%|align=center](image.png "My caption|pos=below|style=italic")
 ```
 
-The part before the first `|` in ALT remains the real accessibility ALT.
+**ALT rule:**
+Everything before the first `|` remains the real accessibility alt.
 
 ---
 
 ## ALT Directives
 
-### size= / s=
+The plugin recognizes **exactly two** ALT directives:
 
-| Syntax  | Meaning                 |
-| ------- | ----------------------- |
-| `50%`   | width 50%, height auto  |
-| `80`    | width 80px              |
-| `80x40` | width 80px, height 40px |
-| `80x`   | width 80px, height auto |
-| `x40`   | width auto, height 40px |
+### size=
 
-### align= / a=
+Sizing options:
 
-| Value         | Effect          |
-| ------------- | --------------- |
-| `left`        | left aligned    |
-| `center`      | centered        |
-| `middle`      | alias of center |
-| `right`       | right aligned   |
-| `float-left`  | float left      |
-| `float-right` | float right     |
+| Value     | Meaning                 |
+| --------- | ----------------------- |
+| `50%`     | width 50%, height auto  |
+| `80`      | width 80px              |
+| `80px`    | width 80px              |
+| `80x40`   | width 80px, height 40px |
+| `80x`     | width 80px, height auto |
+| `x40`     | width auto, height 40px |
+| `80xauto` | width 80px, height auto |
 
-### max= / m=
+### align=
 
-Controls CSS `max-width`.
+Alignment options:
 
-```markdown
-![img|max=300](img.png)
-![img|max=50%](img.png)
-```
+| Value    | Meaning                 |
+| -------- | ----------------------- |
+| `left`   | Default image alignment |
+| `center` | Centered block image    |
+| `middle` | Alias for center        |
+| `right`  | Right-aligned block     |
 
-### class= / c=
-
-Adds CSS classes to the `<img>` element.
-
-```markdown
-![img|class=rounded shadow](img.png)
-```
-
-### zoom / lightbox
-
-Adds classes only.
-
-```markdown
-![img|zoom](img.png)
-![img|lightbox](img.png)
-```
+**Important:**
+No float options. No class options. No max-width options.
+The plugin deliberately does **not** touch layout unless `align=` is present.
 
 ---
 
 ## TITLE Directives (Captions)
 
-Syntax:
+Captions are extracted from the TITLE string:
 
 ```markdown
-![ALT](url "Caption|directive|directive")
+![ALT](img.png "Caption text|pos=above|style=bold")
 ```
 
-### Caption visibility
+### Visibility
+
+To suppress the visible caption:
 
 ```markdown
 notitle
@@ -170,47 +145,28 @@ nocaption
 no_caption
 ```
 
-### Caption position
+(`"notitle"` alone even removes the tooltip.)
 
-- `pos=above`
-- `pos=below` (default)
+### Position
 
-### Caption alignment
+* `pos=above`
+* `pos=below` (default)
 
-- `align=left`
-- `align=center`
-- `align=right`
+### Style
 
-### Caption style
+* `italic` (default)
+* `bold`
+* `underline`
+* `normal`
 
-- `italic`
-- `bold`
-- `underline`
-- `normal`
+### Alignment
 
-### Caption classes
-
-```markdown
-"Caption text|class=caption-small highlight"
-```
-
-### Figure labels
-
-```markdown
-"CPU pipeline|fig=2.3"
-```
-
-### Autonumbering
-
-```markdown
-"CPU Pipeline|autonumber"
-```
+Captions **always** align exactly like the image.
+No caption-specific `align=` is supported.
 
 ---
 
 ## Examples & Previews
-
-(*ALL GitHub logo examples preserved exactly from your original README, now enhanced if directives allow.*)
 
 ### Percentage width
 
@@ -292,64 +248,29 @@ no_caption
 
 ---
 
-## Combined Examples
+## Combined Example
 
-### Caption + style + autonumber
+A real plugin-valid combined example:
 
 ```markdown
 ![GitHub Logo|size=120|align=center](./images/GitHub-Mark.png
- "The GitHub Mark|pos=below|style=italic|autonumber|class=caption-small")
+ "The GitHub Mark|pos=below|style=italic")
 ```
 
-<p align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="120"></p>
-<p align="center" style="font-style: italic;"><em>Figure 1: The GitHub Mark</em></p>
+Rendered:
 
----
-
-### Float + max width + figure label
-
-```markdown
-![Pipeline|size=50%|align=float-right|max=300](pipeline.png
- "Pipeline execution stages|pos=above|fig=3.1|style=bold")
-```
-
-<em>Note: Float and caption positioning best viewed in rendered Docsify site.</em>
-
----
-
-### Custom image classes + caption classes
-
-```markdown
-![CPU|size=200|class=hero-img rounded](cpu.png
- "CPU overview|class=caption-highlight note")
-```
-
-<em>Note: Custom classes require corresponding CSS definitions in your Docsify theme.</em>
-
----
-
-## Configuration
-
-Add to your `index.html` before loading Docsify:
-
-```js
-window.$docsify = {
-  imageSize: {
-    defaultCaptionPos: "below",
-    defaultCaptionAlign: "center",
-    defaultCaptionStyle: "italic",
-    figurePrefix: "Figure",
-    autoNumber: false,
-    autoNumberScope: "page"
-  }
-};
-```
+<p align="center">
+  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="120"><br>
+  <em>The GitHub Mark</em>
+</p>
 
 ---
 
 ## Notes
 
-- ALT text before the first `|` remains the true accessibility alt.
-- Unknown directives are ignored with warnings.
-- Image URLs are never modified.
-- Captions and images expose data attributes for chaining with other plugins.
+* ALT text before the first `|` is preserved as the true accessibility alt.
+* Directives must be the last segments in ALT.
+* Unknown directives are ignored with warnings.
+* Image URLs are never modified.
+* Captions are injected using `<span style="display:block">` for valid HTML inside `<p>`.
+* Caption alignment always follows image alignment.

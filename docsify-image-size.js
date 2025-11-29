@@ -1,108 +1,114 @@
 /*
-  docsify-image-size (alt-based variant)
+  docsify-image-size
+  ==================
 
-  Docsify plugin that adds size and alignment directives using the image ALT text.
+  A Docsify plugin providing:
+    - Image sizing via ALT text
+    - Image alignment via ALT text
+    - Captions via TITLE text
+    - Valid HTML (no <div> inside <p>)
+    - No layout side effects unless explicitly requested
 
-  Why this exists
-  ---------------
+  ---------------------------------------------------------------------------
+  INSTALLATION
+  ---------------------------------------------------------------------------
 
-  Docsify itself parses :size=... inside the image *title* string and removes it
-  before plugins running in hook.doneEach can read it. That makes title-based
-  syntax unreliable for sizing.
+  Include this script in your Docsify index.html:
 
-  This version uses ALT-based syntax instead for sizing and image alignment,
-  so we do not conflict with Docsify's built-in :size support and we do NOT
-  modify image src URLs.
+      <script src="docsify-image-size.js"></script>
 
-  It also optionally uses the image TITLE attribute as a caption, with simple
-  directives for caption position, alignment, and style.
+  No configuration is required.
 
-  ALT-based syntax (size and image alignment)
-  -------------------------------------------
+  ---------------------------------------------------------------------------
+  MARKDOWN SYNTAX
+  ---------------------------------------------------------------------------
 
-    ![ALT|size=VALUE|align=VALUE](URL)
+  The plugin extends standard Markdown image syntax.
 
-  Examples:
+  1) ALT-based directives (size, alignment)
+     --------------------------------------
+     ALT syntax uses '|' as separator:
 
-    ![Kafka|size=x50|align=center](../assets/img/kafka.png)
-    ![Logo|size=64](./images/logo.png)
-    ![Diagram|size=50%|align=right](./images/diagram.png)
-    ![Icon|align=center](./images/icon.png)
+         ![ALT TEXT | size=VALUE | align=VALUE](path/to/image.png)
 
-  Rules:
+     Everything before the first '|' is the real alt text.
+     Directives must be the FINAL segments.
 
-    - Everything before the first "|" is the real alt text.
-    - Later segments may contain:
-         size=...
-         align=...
-    - If ALT contains no "|", the plugin does nothing for sizing/alignment.
+     Examples:
+         ![Logo|size=64](img.png)
+         ![Kafka Diagram|size=50%|align=center](img.png)
+         ![Icon|align=right](img.png)
+         ![Input | Output | size=80]   (pipes allowed in real alt text)
 
-  Supported size values
-  ---------------------
+     Supported sizes:
+         size=50%       → width 50%, height auto
+         size=80        → width 80px, height auto
+         size=80px      → width 80px, height auto
+         size=80x40     → width 80px, height 40px
+         size=80x       → width 80px, height auto
+         size=x40       → width auto, height 40px
+         size=80xauto   → width 80px, height auto
 
-    size=50%     -> width: 50%, height: auto
-    size=80      -> width: 80px, height: auto
-    size=80x40   -> width: 80px, height: 40px
-    size=80x     -> width: 80px, height: auto
-    size=x40     -> width: auto, height: 40px
+     Supported align values:
+         align=left     (default)
+         align=center
+         align=middle   (alias of center)
+         align=right
 
-  Supported align values (for the image itself)
-  ---------------------------------------------
+     Notes:
+         - If no align= is given, the image layout is NOT changed.
+         - ALT parsing scans from the end; misordered directives will be ignored.
+         - A warning is printed only if a '|' appears AND 'size=' or 'align='
+           appears in the text but cannot be parsed.
 
-    align=left
-    align=center
-    align=middle   (alias of center)
-    align=right
+  2) TITLE-based captions
+     ---------------------
+     Captions use the TITLE attribute, with optional directives:
 
-  Caption syntax (TITLE-based)
-  ----------------------------
+         ![Alt|size=80](img.png "CAPTION TEXT | pos=below | style=italic")
 
-  The TITLE attribute can be used to render a visible caption above or below
-  the image. The syntax mirrors the ALT directives and uses "|" as separator:
+     Everything before the first '|' is the visible caption text.
+     The same text appears in the browser tooltip unless suppressed.
 
-    ![ALT|size=...|align=...](URL "CAPTION TEXT|pos=VALUE|align=VALUE|style=VALUE")
+     Supported caption directives:
+         pos=above
+         pos=below    (default)
+         style=italic     (default)
+         style=bold
+         style=underline
+         style=normal
+         notitle / no-title / nocaption / no_caption
+             → Do not render a visible caption.
+               If used alone (e.g., title="notitle"), tooltip is removed.
 
-  Rules:
+     Caption alignment:
+         - Always matches the image's alignment.
+         - Default is left-aligned.
 
-    - Everything before the first "|" in TITLE is the visible caption text.
-    - That same text is also kept as the browser tooltip (title attribute).
-    - Later segments are caption directives.
+     Examples:
+         ![Logo|size=80](img.png "Project Logo")
+         ![Photo|size=200x](pic.jpg "Figure 3.1|pos=above|style=bold")
+         ![Icon|size=32](ico.png "Tooltip only|notitle")
 
-  Caption directives:
+  ---------------------------------------------------------------------------
+  BEHAVIOR SUMMARY
+  ---------------------------------------------------------------------------
 
-    notitle / no-title / nocaption / no_caption
-      - Do NOT render a visible caption, but still keep the tooltip text.
+    • ALT directives control image size and alignment.
+    • TITLE directives control captions.
+    • Captions are rendered as <span style="display:block">, valid inside <p>.
+    • The plugin never modifies parent <p> alignment.
+    • If align= is missing, the image layout is untouched.
+    • Idempotent: each image is processed once per page load.
+    • Images without ALT or TITLE directives are left unchanged.
 
-    pos=
-      - pos=below   (default) -> caption below the image
-      - pos=above              -> caption above the image
+  ---------------------------------------------------------------------------
+  REQUIREMENTS
+  ---------------------------------------------------------------------------
 
-    align=           (caption text alignment only)
-      - align=left
-      - align=center (default if caption is present)
-      - align=right
+    • Docsify (any modern version).
+    • Runs in browsers supporting ES5+.
 
-    style=
-      - style=normal
-      - style=italic   (default)
-      - style=bold
-      - style=underline / style=underlined
-
-  Examples:
-
-    ![Logo|size=64|align=center](./images/logo.png "Project logo")
-
-    ![Diagram|size=50%](./images/diagram.png "Diagram 1.2|pos=above")
-
-    ![Photo|size=200x](./images/photo.png "A left caption|align=left|style=bold")
-
-    ![Icon|size=32](./images/icon.png "Tooltip only|notitle")
-
-  Notes:
-
-    - Caption is rendered as a <div> inserted just before or after the <img>.
-    - By default, caption is below, centered, italic.
-    - The plugin marks images once captioned to avoid duplicate captions on re-runs.
 */
 
 (function (root, factory) {
@@ -116,338 +122,266 @@
 }(typeof self !== "undefined" ? self : this, function () {
   "use strict";
 
+  // --- Helper: Parse ALT ---
   function parseAltDirectives(alt) {
     if (!alt || alt.indexOf("|") === -1) {
       return null;
     }
 
-    const parts = alt.split("|").map(function (s) { return s.trim(); });
-    const baseAlt = parts[0] || "";
+    const parts = alt.split("|");
     let size = null;
     let align = null;
+    let cutIndex = parts.length;
 
-    for (let i = 1; i < parts.length; i++) {
-      const seg = parts[i];
-      if (!seg) continue;
-
+    // Scan backwards. Directives must be at the very end of the string.
+    for (let i = parts.length - 1; i >= 1; i--) {
+      const seg = parts[i].trim();
       const lower = seg.toLowerCase();
+
       if (lower.indexOf("size=") === 0) {
         size = seg.slice(5).trim();
+        cutIndex = i;
       } else if (lower.indexOf("align=") === 0) {
         align = seg.slice(6).trim().toLowerCase();
+        cutIndex = i;
+      } else {
+        // We hit a non-directive segment. Stop scanning.
+        break;
       }
+    }
+
+    // Diagnostic: Check for malformed/ignored directives.
+    // We only warn if:
+    // 1. We found no valid directives (size/align are null).
+    // 2. The string actually contains a pipe '|' (signal of intent).
+    // 3. The string contains "size=" or "align=" (case-insensitive).
+    if (!size && !align && alt.indexOf("|") > -1) {
+       const lowerAlt = alt.toLowerCase();
+       if (lowerAlt.indexOf("size=") > -1 || lowerAlt.indexOf("align=") > -1) {
+         if (typeof console !== "undefined" && console && console.warn) {
+           console.warn(`[docsify-image-size] Ignored directives in: "${alt}". Directives must be the last segments (e.g. "Alt|size=...").`);
+         }
+       }
     }
 
     if (!size && !align) {
       return null;
     }
 
+    const baseAlt = parts.slice(0, cutIndex).join("|").trim();
     return { baseAlt: baseAlt, size: size, align: align };
   }
 
+  // --- Helper: Convert size string to styles ---
   function sizeToStyles(size) {
     if (!size) return { width: null, height: null, widthPercent: null };
 
-    let width = null;
-    let height = null;
-    let widthPercent = null;
-
     if (size.indexOf("%") !== -1) {
-      const pm = size.match(/^(\d+(?:\.\d+)?)\s*%$/);
-      if (pm) {
-        widthPercent = pm[1];
-        height = "auto";
-      }
-      return { width: width, height: height, widthPercent: widthPercent };
+      return { width: null, height: "auto", widthPercent: size };
     }
 
-    if (/^\d+$/.test(size)) {
-      const wOnly = parseInt(size, 10);
-      if (!isNaN(wOnly)) {
-        width = wOnly;
-        height = "auto";
-      }
-      return { width: width, height: height, widthPercent: widthPercent };
+    // Robustly strip 'px' if user added it
+    const cleanSize = size.replace(/px/gi, "");
+
+    // Single Integer
+    if (/^\d+$/.test(cleanSize)) {
+      return { width: cleanSize + "px", height: "auto", widthPercent: null };
     }
 
-    const parts = size.split(/x/i);
-    if (parts.length >= 1) {
-      const rawW = (parts[0] || "").trim();
-      const rawH = (parts[1] || "").trim();
+    // Width x Height
+    const parts = cleanSize.split(/x/i);
+    const w = parts[0] ? parts[0].trim() : "auto";
+    const h = parts[1] ? parts[1].trim() : "auto";
 
-      const w = rawW ? parseInt(rawW, 10) : NaN;
-      const h = rawH ? parseInt(rawH, 10) : NaN;
+    // Validate inputs. We support "auto" explicitly.
+    // e.g. "80xauto" -> width: 80px, height: auto
+    const finalW = (w === "auto" || /^\d+$/.test(w)) ? (w === "auto" ? "auto" : w + "px") : null;
+    const finalH = (h === "auto" || /^\d+$/.test(h)) ? (h === "auto" ? "auto" : h + "px") : null;
+    
+    // If both invalid, return nulls to avoid breaking layout
+    if (!finalW && !finalH) return { width: null, height: null, widthPercent: null };
 
-      const hasW = !isNaN(w);
-      const hasH = !isNaN(h);
-
-      if (hasW && !hasH) {
-        width = w;
-        height = "auto";
-      } else if (!hasW && hasH) {
-        width = "auto";
-        height = h;
-      } else if (hasW && hasH) {
-        width = w;
-        height = h;
-      }
-    }
-
-    return { width: width, height: height, widthPercent: widthPercent };
+    return { width: finalW || "auto", height: finalH || "auto", widthPercent: null };
   }
 
+  // --- Apply Size ---
   function applySize(img, sizeToken) {
     if (!sizeToken) return;
-
     const s = sizeToStyles(sizeToken);
 
     img.removeAttribute("width");
     img.removeAttribute("height");
 
-    if (s.widthPercent !== null) {
-      img.style.width = s.widthPercent + "%";
+    if (s.widthPercent) {
+      img.style.width = s.widthPercent;
       img.style.height = "auto";
-      return;
-    }
-
-    if (s.width !== null && s.width !== "auto") {
-      img.style.width = String(s.width) + "px";
-    } else if (s.width === "auto") {
-      img.style.width = "auto";
-    }
-
-    if (s.height !== null && s.height !== "auto") {
-      img.style.height = String(s.height) + "px";
-    } else if (s.height === "auto") {
-      img.style.height = "auto";
+    } else {
+      if (s.width) img.style.width = s.width;
+      if (s.height) img.style.height = s.height;
     }
   }
 
+  // --- Apply Align ---
   function applyAlign(img, alignToken) {
+    // 1. Clamp alignment to allowed values
+    let a = (alignToken || "left").toLowerCase();
+    if (!["left", "right", "center", "middle"].includes(a)) {
+      a = "left";
+    }
+
+    // 2. Set attribute for Caption lookup
+    // (Note: This DOM mutation happens even if no layout alignment is applied)
+    img.setAttribute("data-img-align", a);
+
     if (!alignToken) return;
 
-    const a = String(alignToken).toLowerCase();
-
-    img.style.display = "";
+    // 3. Apply Layout Styles
+    // We force block display to allow auto-margins for alignment.
+    img.style.display = "block";
     img.style.marginLeft = "";
     img.style.marginRight = "";
 
-    const parent = img.parentElement || null;
-    if (parent) {
-      parent.style.textAlign = "";
-    }
-
     if (a === "center" || a === "middle") {
-      img.style.display = "block";
       img.style.marginLeft = "auto";
       img.style.marginRight = "auto";
-      if (parent) {
-        parent.style.textAlign = "center";
-      }
-      return;
-    }
-
-    if (a === "right") {
-      img.style.display = "block";
+    } else if (a === "right") {
       img.style.marginLeft = "auto";
       img.style.marginRight = "0";
-      if (parent) {
-        parent.style.textAlign = "right";
-      }
-      return;
-    }
-
-    if (a === "left") {
-      img.style.display = "block";
+    } else if (a === "left") {
       img.style.marginLeft = "0";
       img.style.marginRight = "auto";
-      if (parent) {
-        parent.style.textAlign = "left";
-      }
-      return;
     }
   }
 
+  // --- Helper: Parse Title ---
   function parseTitleDirectives(title) {
     if (!title) return null;
 
-    const parts = title.split("|").map(function (s) { return s.trim(); });
-    const baseTitle = parts[0] || "";
+    const raw = title.trim();
+    const lowerRaw = raw.toLowerCase();
 
-    let pos = null;
-    let align = null;
-    let style = null;
+    // Edge Case: Bare keyword "notitle"
+    // Result: No visual caption, and tooltip is cleared (empty).
+    if (["notitle", "no-title", "nocaption", "no_caption"].includes(lowerRaw)) {
+      return { baseTitle: "", pos: "below", style: "italic", noTitle: true };
+    }
+
+    // Edge Case: Standard Title (No pipes)
+    // Result: Standard tooltip, default caption style.
+    if (raw.indexOf("|") === -1) {
+      return { baseTitle: raw, pos: "below", style: "italic", noTitle: false };
+    }
+
+    // Directives
+    const parts = raw.split("|");
+    const baseTitle = parts[0].trim();
+
+    let pos = "below";
+    let style = "italic";
     let noTitle = false;
 
     for (let i = 1; i < parts.length; i++) {
-      const seg = parts[i];
-      if (!seg) continue;
-
+      const seg = parts[i].trim();
       const lower = seg.toLowerCase();
 
-      if (
-        lower === "notitle" ||
-        lower === "no-title" ||
-        lower === "nocaption" ||
-        lower === "no_caption"
-      ) {
+      if (["notitle", "no-title", "nocaption", "no_caption"].includes(lower)) {
         noTitle = true;
-        continue;
-      }
-
-      if (lower.indexOf("pos=") === 0 || lower.indexOf("position=") === 0) {
-        const eqIdx = seg.indexOf("=");
-        if (eqIdx !== -1) {
-          const val = seg.slice(eqIdx + 1).trim().toLowerCase();
-          if (val === "above" || val === "top") {
-            pos = "above";
-          } else if (val === "below" || val === "bottom") {
-            pos = "below";
-          }
-        }
-        continue;
-      }
-
-      if (lower.indexOf("align=") === 0) {
-        const eqIdx = seg.indexOf("=");
-        if (eqIdx !== -1) {
-          const val = seg.slice(eqIdx + 1).trim().toLowerCase();
-          if (val === "left" || val === "center" || val === "right") {
-            align = val;
-          }
-        }
-        continue;
-      }
-
-      if (lower.indexOf("style=") === 0) {
-        const eqIdx = seg.indexOf("=");
-        if (eqIdx !== -1) {
-          const val = seg.slice(eqIdx + 1).trim().toLowerCase();
-          if (val === "normal") {
-            style = "normal";
-          } else if (val === "italic" || val === "italics") {
-            style = "italic";
-          } else if (val === "bold") {
-            style = "bold";
-          } else if (val === "underline" || val === "underlined") {
-            style = "underline";
-          }
-        }
-        continue;
+      } else if (lower.startsWith("pos=") || lower.startsWith("position=")) {
+        const val = lower.split("=")[1].trim();
+        if (["above", "top"].includes(val)) pos = "above";
+        if (["below", "bottom"].includes(val)) pos = "below";
+      } else if (lower.startsWith("style=")) {
+        const val = lower.split("=")[1].trim();
+        if (val === "underlined") style = "underline";
+        else if (["normal", "italic", "bold", "underline"].includes(val)) style = val;
       }
     }
 
-    if (!baseTitle && !noTitle) {
-      return null;
-    }
-
-    return {
-      baseTitle: baseTitle,
-      pos: pos,
-      align: align,
-      style: style,
-      noTitle: noTitle
-    };
+    return { baseTitle, pos, style, noTitle };
   }
 
+  // --- Apply Caption ---
   function applyCaption(img, captionInfo) {
     if (!captionInfo) return;
 
-    // Always clean the title attribute to the base caption text (tooltip)
-    if (typeof captionInfo.baseTitle === "string") {
+    // 1. Set Tooltip (Title Attribute)
+    if (captionInfo.baseTitle) {
       img.setAttribute("title", captionInfo.baseTitle);
+    } else {
+      img.removeAttribute("title");
     }
 
-    // If explicit noTitle, do not render a caption element
-    if (captionInfo.noTitle) {
-      return;
-    }
+    // 2. Check Guards
+    if (captionInfo.noTitle) return;
+    if (!captionInfo.baseTitle) return; // Don't create empty spans
+    if (img.getAttribute("data-docsify-caption-added")) return; // Prevent duplicates
 
-    // Avoid adding multiple captions for the same image
-    if (img.getAttribute("data-docsify-caption") === "1") {
-      return;
-    }
-
-    const captionText = captionInfo.baseTitle;
-    if (!captionText) {
-      return;
-    }
-
-    const captionEl = document.createElement("div");
-    captionEl.textContent = captionText;
-    captionEl.setAttribute("data-docsify-caption", "1");
-
-    // Defaults: below, centered, italic
-    const pos = captionInfo.pos || "below";
-    const align = captionInfo.align || "center";
-    const style = captionInfo.style || "italic";
-
+    // 3. Create Caption Element
+    // Use <span> with display:block because <div> cannot be inside <p>
+    const captionEl = document.createElement("span");
+    captionEl.textContent = captionInfo.baseTitle;
+    captionEl.style.display = "block";
     captionEl.style.fontSize = "0.9em";
     captionEl.style.lineHeight = "1.4";
 
-    if (align === "left" || align === "center" || align === "right") {
-      captionEl.style.textAlign = align;
-    } else {
-      captionEl.style.textAlign = "center";
-    }
+    // 4. Alignment & Style
+    const imgAlign = img.getAttribute("data-img-align") || "left";
+    captionEl.style.textAlign = (imgAlign === "middle") ? "center" : imgAlign;
 
-    if (style === "italic") {
-      captionEl.style.fontStyle = "italic";
-      captionEl.style.fontWeight = "normal";
-      captionEl.style.textDecoration = "none";
-    } else if (style === "bold") {
-      captionEl.style.fontStyle = "normal";
-      captionEl.style.fontWeight = "bold";
-      captionEl.style.textDecoration = "none";
-    } else if (style === "underline") {
-      captionEl.style.fontStyle = "normal";
-      captionEl.style.fontWeight = "normal";
-      captionEl.style.textDecoration = "underline";
-    } else {
-      // normal
-      captionEl.style.fontStyle = "normal";
-      captionEl.style.fontWeight = "normal";
-      captionEl.style.textDecoration = "none";
-    }
+    captionEl.style.fontStyle = "normal";
+    captionEl.style.fontWeight = "normal";
+    captionEl.style.textDecoration = "none";
 
-    if (pos === "above") {
+    if (captionInfo.style === "bold") captionEl.style.fontWeight = "bold";
+    else if (captionInfo.style === "underline") captionEl.style.textDecoration = "underline";
+    else if (captionInfo.style === "italic") captionEl.style.fontStyle = "italic";
+
+    // 5. Insert Element
+    if (captionInfo.pos === "above") {
       captionEl.style.marginBottom = "0.25rem";
       img.insertAdjacentElement("beforebegin", captionEl);
     } else {
-      // below (default)
       captionEl.style.marginTop = "0.25rem";
       img.insertAdjacentElement("afterend", captionEl);
     }
 
-    img.setAttribute("data-docsify-caption", "1");
+    img.setAttribute("data-docsify-caption-added", "true");
   }
 
+  // --- Main Plugin Hook ---
   function imageSizePlugin(hook, vm) {
     hook.doneEach(function () {
       const container = document.querySelector(".markdown-section");
       if (!container) return;
 
       const imgs = container.querySelectorAll("img[alt]");
+
       imgs.forEach(function (img) {
+        // Idempotency: Prevent re-processing the same image
+        if (img.getAttribute("data-docsify-image-size-processed")) {
+            return;
+        }
+
         const alt = img.getAttribute("alt") || "";
-        const info = parseAltDirectives(alt);
-        if (info) {
-          img.setAttribute("alt", info.baseAlt);
+        const altInfo = parseAltDirectives(alt);
 
-          if (info.size) {
-            applySize(img, info.size);
-          }
-
-          if (info.align) {
-            applyAlign(img, info.align);
-          }
+        if (altInfo) {
+          img.setAttribute("alt", altInfo.baseAlt);
+          if (altInfo.size) applySize(img, altInfo.size);
+          applyAlign(img, altInfo.align);
+        } else {
+          // Initialize default attributes for caption alignment
+          applyAlign(img, null);
         }
 
         const title = img.getAttribute("title");
-        const captionInfo = parseTitleDirectives(title);
-        if (captionInfo) {
+        if (title) {
+          const captionInfo = parseTitleDirectives(title);
           applyCaption(img, captionInfo);
         }
+
+        // Mark complete
+        img.setAttribute("data-docsify-image-size-processed", "true");
       });
     });
   }
