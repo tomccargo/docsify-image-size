@@ -1,7 +1,7 @@
 {
   "name": "docsify-image-size",
-  "version": "0.3.0",
-  "description": "Docsify plugin that adds size and alignment directives to images via ALT text",
+  "version": "1.0.0",
+  "description": "Docsify plugin providing image sizing, alignment, max-width, float layout, classes, captions, figure labels, and autonumbering using ALT and TITLE directives.",
   "main": "docsify-image-size.js",
   "keywords": [
     "docsify",
@@ -11,7 +11,11 @@
     "size",
     "align",
     "alignment",
+    "caption",
+    "figure",
     "responsive",
+    "float",
+    "autonumber",
     "docsify-image"
   ],
   "license": "MIT",

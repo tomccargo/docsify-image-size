@@ -18,8 +18,6 @@
 
     ![ALT|size=VALUE|align=VALUE](URL)
 
-  Separator is the "|" character.
-
   Examples:
 
     ![Kafka|size=x50|align=center](../assets/img/kafka.png)
